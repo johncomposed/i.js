@@ -3,7 +3,7 @@ var fs = require('fs'),
     logger = require('log4js').getLogger("config");
 
 var base_dir = path.resolve(__dirname, "..");
-var scrap_dir = path.join(base_dir, ".scrapbooks");
+var scrap_dir = path.join('./', ".scrapbooks");
 
 exports.title = 'i.js';
 exports.base_dir = base_dir;
