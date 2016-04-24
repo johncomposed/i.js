@@ -1,0 +1,3 @@
+#!/usr/bin/env node
+var ijs = require(require('path').join(__dirname, '..', 'app.js'));
+ijs.serve(process.argv[2]);

@@ -12,10 +12,10 @@ var routes = require('./routes'),
     repl_manager = require('./routes/repl_manager'),
     scrapbook = require('./routes/scrapbook');
 
-var app = express();
+var app = exports.app = express();
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+// app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -43,6 +43,15 @@ app.post('/delete', scrapbook.delete);
 
 config.setup();
 
-http.createServer(app).listen(app.get('port'), function () {
-    console.log('Express server listening on port ' + app.get('port'));
-});
+var serve = exports.serve = function(port) {
+  app.set('port', port || process.env.PORT || 3000);
+  
+  http.createServer(app).listen(app.get('port'), function () {
+      console.log('i.js server listening on port ' + app.get('port'));
+  });
+}
+
+// If not calling via npm module
+if (require.main === module) {
+  serve();
+}
