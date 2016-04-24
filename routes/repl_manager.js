@@ -60,20 +60,31 @@ var createServer = function (port, callback) {
     clientSocket = net.connect(port);
 };
 
+var findFreePort = function(port, cb) {
+  (function test() {
+    var tester = net.createServer()
+      .once('error', function (err) { test(port++) })
+      .once('listening', function() {tester.close(); cb(port); })
+      .listen(port);
+  }(port));
+};
+
+
 var getServer = function () {
     logger.info("getServer()");
 
     var id2server = {};
-    var nextPort = 5001;
     return function (id, callback) {
         var server = id2server[id];
         if (server) {
             callback(server);
         } else {
-            logger.info('create server on port: ' + nextPort);
-            createServer(nextPort++, function (server_connection) {
-                id2server[id] = server_connection;
-                callback(server_connection);
+            findFreePort(5001, function(nextPort) {
+              logger.info('create server on port: ' + nextPort);
+              createServer(nextPort, function (server_connection) {
+                  id2server[id] = server_connection;
+                  callback(server_connection);
+              });
             });
         }
     };
