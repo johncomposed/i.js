@@ -9,7 +9,11 @@ var config = require('./config'),
 
 var prompt = "@\n",
     scripts = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'repl_scripts.json'), 'utf8')),
-    magic = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'repl_magic.json'), 'utf8'));
+    magic = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'repl_magic.json'), 'utf8')),
+    init = [
+        util.format(scripts['setupBaseDir'], config.base_dir),
+        util.format(scripts['setupModulesDir'], config.modules_dir)
+    ].join("\n");
 
 
 var createServer = function (port, callback) {
@@ -48,12 +52,8 @@ var createServer = function (port, callback) {
         util.inherits(ServerConnection, events.EventEmitter);
 
         var server_connection = new ServerConnection(clientSocket, repl_server);
-        var init = [
-            util.format(scripts['setupBaseDir'], config.base_dir),
-            util.format(scripts['setupModulesDir'], config.modules_dir)
-        ];
 
-        server_connection.eval(init.join("\n"), function(data) {
+        server_connection.eval(init, function(data) {
             callback(server_connection);
         });
     }).listen(port);
@@ -157,6 +157,8 @@ exports.preprocessJS = function (js) {
     var result = "";
     if (clear) {
         result += ".clear\n";
+        // rerun init to add repl_scripts variables
+        result += init;
     }
 
     if (sourceCodeString !=='') {
