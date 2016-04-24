@@ -24,7 +24,15 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'node_modules')));
+
+// Hackily making d3 and codemirror available to client 
+// Previously this called path.join(_dirname, node_modules);
+app.use("/codemirror",express.static(
+  path.dirname(require.resolve('codemirror')).slice(0, -4)
+));
+app.use("/d3",express.static(
+  path.dirname(require.resolve('d3'))
+));
 
 // development only
 if ('development' == app.get('env')) {
