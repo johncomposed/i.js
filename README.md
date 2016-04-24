@@ -46,11 +46,11 @@ Here I will use an adopted Mike Bostock's [example](http://bost.ocks.org/mike/ba
 %init_d3
 ```
 
-This is essentially a syntactic sugar for including a node module into the i.js context. Instead of the magic command
+This is essentially a syntactic sugar for including d3 into the i.js context. Instead of the magic command
 above one could inject any module dependency like this:
 
 ```javascript
-var d3 = require(__modules_dir + 'd3');
+var d3 = require('./d3');
 ```
 
 * Now get some data 
@@ -133,7 +133,6 @@ Usage
 Built-in variables
 
 * __base_dir - is a pre-defined variable pointing to i.js base directory.
-* __modules_dir - is a pre-defined variable pointing to directory with i.js module dependencies..
 
 Use any of the following within i.js cells:
 

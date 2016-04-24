@@ -11,8 +11,7 @@ var prompt = "@\n",
     scripts = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'repl_scripts.json'), 'utf8')),
     magic = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'repl_magic.json'), 'utf8')),
     init = [
-        util.format(scripts['setupBaseDir'], config.base_dir),
-        util.format(scripts['setupModulesDir'], config.modules_dir)
+        util.format(scripts['setupBaseDir'], config.base_dir)  
     ].join("\n");
 
 

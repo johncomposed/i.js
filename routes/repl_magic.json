@@ -2,7 +2,7 @@
     "%inline": "",
     "%reset": "",
     "%init_d3": [
-        "var d3 = require(__modules_dir + '/d3');",
+        "var d3 = require('./d3');",
         "",
         "function d3Container() {",
         "   var container = d3.select('body').html('').append('div');",

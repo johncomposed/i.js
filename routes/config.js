@@ -3,12 +3,10 @@ var fs = require('fs'),
     logger = require('log4js').getLogger("config");
 
 var base_dir = path.resolve(__dirname, "..");
-var modules_dir = path.join(base_dir, "node_modules");
 var scrap_dir = path.join(base_dir, ".scrapbooks");
 
 exports.title = 'i.js';
 exports.base_dir = base_dir;
-exports.modules_dir = modules_dir;
 exports.scrap_dir = scrap_dir;
 
 exports.setup = function () {
